@@ -1,0 +1,23 @@
+def index(): 
+msg="" 
+ff=open("det.txt","w") 
+ff.write("1") 
+ff.close() 
+ff1=open("photo.txt","w") 
+ff1.write("1") 
+ff1.close() 
+#s="welcome" 
+#v=s[2:5] 
+#print(v) 
+if request.method=='POST': 
+uname=request.form['uname'] 
+pwd=request.form['pass'] 
+cursor = mydb.cursor() 
+cursor.execute('SELECT * FROM im_user WHERE uname = %s AND pass = %s', (uname, 
+pwd)) 
+account = cursor.fetchone() 
+if account: 
+session['username'] = uname 
+return redirect(url_for('userhome')) 
+else: 
+msg = 'Incorrect username/password!'

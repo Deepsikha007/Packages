@@ -1,0 +1,31 @@
+def userhome(): 
+msg="" 
+fid="" 
+act=request.args.get("act") 
+if 'username' in session: 
+uname = session['username'] 
+mycursor = mydb.cursor() 
+mycursor.execute('SELECT * FROM im_user where uname=%s',(uname,)) 
+udata = mycursor.fetchone() 
+if request.method == 'POST': 
+detail= request.form['detail'] 
+if 'file' not in request.files: 
+flash('No file Part') 
+return redirect(request.url) 
+file= request.files['file'] 
+mycursor.execute("SELECT max(id)+1 FROM im_post") 
+maxid = mycursor.fetchone()[0] 
+if maxid is None: 
+maxid=1 
+if file.filename == '': 
+flash('No Select file') 
+#return redirect(request.url) 
+if file: 
+fname1 = file.filename 
+fname = secure_filename(fname1) 
+file_name="P"+str(maxid)+fname 
+file.save(os.path.join("static/upload/", file_name)) 
+ff=open("static/ufile.txt","w") 
+ff.write(file_name) 
+ff.close() 
+res=vaccinate(uname,file_name)

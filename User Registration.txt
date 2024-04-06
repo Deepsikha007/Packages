@@ -1,0 +1,37 @@
+def signup (): 
+msg="" 
+mycursor = mydb.cursor() 
+mycursor.execute("SELECT max(id)+1 FROM im_user") 
+maxid = mycursor.fetchone()[0] 
+if maxid is None: 
+maxid=1 
+if request.method=='POST': 
+name=request.form['name'] 
+gender=request.form['gender'] 
+dob=request.form['dob']
+aadhar=request.form['aadhar'] 
+mobile=request.form['mobile'] 
+email=request.form['email'] 
+uname=request.form['uname'] 
+pass1=request.form['pass'] 
+mycursor.execute('SELECT count(*) FROM im_user WHERE uname = %s || aadhar=%s', 
+(uname,aadhar)) 
+cnt = mycursor.fetchone()[0] 
+if cnt==0: 
+now = datetime.now() 
+rdate=now.strftime("%d-%m-%Y") 
+adr=str(aadhar) 
+rn=randint(50,90) 
+v1=name [0:2] 
+v2=str(rn) 
+v3=adr[0:3] 
+bkey=v1+str(maxid)+v2+v3 
+sql = "INSERT INTO im_user(id, 
+name,gender,dob,mobile,email,aadhar,uname,pass,create_date,photo) VALUES (%s,%s, %s, 
+%s, %s, %s,%s,%s,%s,%s,%s)" 
+val = (maxid, name, gender, dob, mobile, email, aadhar, uname, pass1, rdate,'') 
+mycursor.execute(sql, val) 
+mydb.commit() 
+print(mycursor.rowcount, "Registered Success") 
+else: 
+msg='fail'

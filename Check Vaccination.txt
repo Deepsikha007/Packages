@@ -1,0 +1,171 @@
+def vaccinate(uname,file_name): 
+s="" 
+user="" 
+attack="" 
+uu="" 
+pid="" 
+stu='0' 
+fn="" 
+socialfilepath="static/upload/"+file_name 
+img1 = Image.open(filepath) 
+st="1" 
+# get width and height 
+width1 = img1.width 
+height1 = img1.height 
+mycursor = mydb.cursor() 
+mycursor.execute("SELECT count(*) FROM im_post where photo!='' && status=0 order by 
+id") 
+cnt = mycursor.fetchone()[0] 
+if cnt>0: 
+mycursor.execute("SELECT * FROM im_post where photo!='' && status=0 order by id") 
+dat = mycursor.fetchall() 
+x=0 
+for dd in dat: 
+fn=dd[3] 
+img=Image.open("static/upload/"+fn) 
+width = img.width 
+height = img.height 
+if width==width1 and height==height1: 
+cmp=compare(fn,file_name) 
+print(cmp) 
+cmp1=float(cmp[0]) 
+uu=dd[1] 
+if cmp1>=99.8: 
+x+=1 
+social_app=1 
+pid=str(dd[0]) 
+if uname==dd[1]: 
+user="1" 
+else: 
+user="2" 
+stu='1' 
+s="2"_app=0
+break 
+elif cmp1>=75: 
+social_app=1 
+pid=str(dd[0]) 
+print(fn) 
+stu='2' 
+ff=open("static/fname.txt","w") 
+ff.write(fn) 
+ff.close() 
+x+=1 
+s="3" 
+st="2" 
+stu='2' 
+a1=attack1(fn,file_name) 
+a11=attack11(fn,file_name) 
+a2=attack2(fn,file_name) 
+attack_st2=a2[2] 
+a3=attack3(fn,file_name) 
+if a3[2]>0 and a2[2]==0 and a11[2]==0: 
+print("splice") 
+attack="splice" 
+elif a1[2]>a11[2] and a2[2]==0: 
+attack="inpaint" 
+elif a2[2]>a1[2] and a2[2]>a11[2]: 
+if a2[2]>0: 
+print("copy") 
+attack="copy" 
+elif a2[2]==0: 
+if a11[2]>=0: 
+if a1[2]>a11[2]: 
+attack="inpaint" 
+break 
+mycursor.execute("SELECT * FROM im_post1 where photo!='' && status=0 order by id") 
+dat1 = mycursor.fetchall()
+for dd1 in dat1: 
+fn=dd1[3] 
+img=Image.open("static/upload/"+fn) 
+width = img.width 
+height = img.height 
+if width==width1 and height==height1: 
+cmp=compare(fn,file_name) 
+print(cmp) 
+cmp1=float(cmp[0]) 
+uu=dd1[1] 
+if cmp1>=99.8: 
+x+=1 
+social_app=2 
+pid=str(dd1[0]) 
+if uname==dd1[1]: 
+user="1" 
+else: 
+user="2" 
+#uu=dd1[1] 
+stu='1' 
+s="2" 
+break 
+elif cmp1>=75: 
+social_app=2 
+pid=str(dd1[0]) 
+ff=open("static/fname.txt","w") 
+ff.write(fn) 
+ff.close() 
+x+=1 
+s="3" 
+st="2" 
+stu='2' 
+a1=attack1(fn,file_name) 
+a11=attack11(fn,file_name)
+a2=attack2(fn,file_name) 
+attack_st2=a2[2] 
+a3=attack3(fn,file_name) 
+if a3[2]>0 and a2[2]==0 and a11[2]==0: 
+print("splice") 
+attack="splice" 
+elif a1[2]>a11[2] and a2[2]==0: 
+print("inpaint") 
+attack="inpaint" 
+elif a2[2]>a1[2] and a2[2]>a11[2]: 
+if a2[2]>0: 
+print("copy") 
+attack="copy" 
+elif a2[2]==0: 
+if a11[2]>=0: 
+if a1[2]>a11[2]: 
+print("inpaint") 
+attack="inpaint" 
+break 
+if x==0: 
+s="1" 
+fn2="D"+file_name 
+fn3="H"+file_name 
+from PIL.ImageFilter import ( 
+BLUR, CONTOUR, DETAIL, EDGE_ENHANCE, EDGE_ENHANCE_MORE, 
+EMBOSS, FIND_EDGES, SMOOTH, SMOOTH_MORE, SHARPEN 
+#Create image object 
+img = Image.open("static/upload/"+file_name) 
+#Applying the blur filter 
+img1 = img.filter(CONTOUR) 
+img1.save('static/test/'+fn2) 
+#img1.show() 
+im = Image.open("static/test/D"+file_name) 
+cmyk = gcr(im, 0)
+dots = halftone(im, cmyk, 10, 1) 
+#im.show() 
+new = Image.merge('CMYK', dots) 
+#new.show() 
+new.save('static/test/'+fn3) 
+else: 
+s="1" 
+fn2="D"+file_name 
+fn3="H"+file_name 
+from PIL.ImageFilter import ( 
+BLUR, CONTOUR, DETAIL, EDGE_ENHANCE, EDGE_ENHANCE_MORE, 
+EMBOSS, FIND_EDGES, SMOOTH, SMOOTH_MORE, SHARPEN 
+#Create image object 
+img = Image.open("static/upload/"+file_name) 
+#Applying the blur filter 
+img1 = img.filter(CONTOUR) 
+img1.save('static/test/'+fn2) 
+#img1.show() 
+im = Image.open("static/test/D"+file_name) 
+cmyk = gcr(im, 0) 
+dots = halftone(im, cmyk, 10, 1) 
+#im.show() 
+new = Image.merge('CMYK', dots) 
+#new.show() 
+new.save('static/test/'+fn3) 
+value=[s,user,uu,fn,pid,stu,attack,social_app] 
+return value

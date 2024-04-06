@@ -1,0 +1,6 @@
+mydb = mysql.connector.connect( 
+host="localhost", 
+user="root", 
+password="", 
+charset="utf8", 
+database="image_immunize)
